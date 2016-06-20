@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import me.bunao.www.coolweather.service.AutoUpdateService;
 import me.bunao.www.coolweather.util.HttpCallbackListener;
 import me.bunao.www.coolweather.util.HttpUtil;
 import me.bunao.www.coolweather.util.Utility;
@@ -180,8 +181,9 @@ public class WeatherActivity extends Activity implements OnClickListener{
 		currentDateText.setText(prefs.getString("current_date", ""));
 		weatherInfoLayout.setVisibility(View.VISIBLE);
 		cityNameText.setVisibility(View.VISIBLE);
-//		Intent intent = new Intent(this, AutoUpdateService.class);
-//		startService(intent);
+		/*启动后台自动更新服务*/
+		Intent intent = new Intent(this, AutoUpdateService.class);
+		startService(intent);
 	}
 
 }
