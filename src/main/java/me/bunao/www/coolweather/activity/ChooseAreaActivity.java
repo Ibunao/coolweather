@@ -53,21 +53,23 @@ public class ChooseAreaActivity extends Activity{
     private City selectedCity;
     /*当前选中的级别*/
     private int currentLevel;
-    /**/
-//    private boolean isFromWeatherActivity;
+    /*判断是否是weatheractivity跳转过来的*/
+    private boolean isFromWeatherActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        AdManager.getInstance(this).init("cf9c2a749cd97145","289874826c698edd", false);
-//        isFromWeatherActivity = getIntent().getBooleanExtra("from_weather_activity", false);
-//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-//        if (prefs.getBoolean("city_selected", false) && !isFromWeatherActivity) {
-//            Intent intent = new Intent(this, WeatherActivity.class);
-//            startActivity(intent);
-//            finish();
-//            return;
-//        }
+        /*对是否是weatheractivity跳转过来的进行判断，如果不是而且存在city_selected，证明
+        * 是选择过城市天气退出的，这样在启动的时候直接进入天气页面
+        * */
+        isFromWeatherActivity = getIntent().getBooleanExtra("from_weather_activity", false);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (prefs.getBoolean("city_selected", false) && !isFromWeatherActivity) {
+            Intent intent = new Intent(this, WeatherActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
         //取消title
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.choose_area);
@@ -87,13 +89,13 @@ public class ChooseAreaActivity extends Activity{
                     selectedCity = cityList.get(index);
                     queryCounties();
                 }
-//                else if (currentLevel == LEVEL_COUNTY) {
-//                    String countyCode = countyList.get(index).getCountyCode();
-//                    Intent intent = new Intent(ChooseAreaActivity.this, WeatherActivity.class);
-//                    intent.putExtra("county_code", countyCode);
-//                    startActivity(intent);
-//                    finish();
-//                }
+                else if (currentLevel == LEVEL_COUNTY) {
+                    String countyCode = countyList.get(index).getCountyCode();
+                    Intent intent = new Intent(ChooseAreaActivity.this, WeatherActivity.class);
+                    intent.putExtra("county_code", countyCode);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
         queryProvinces();  // 加载省列表
